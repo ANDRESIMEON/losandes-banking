@@ -1,4 +1,6 @@
-﻿import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || API_URL;
+import { useState } from "react";
 
 export default function ModalSolicitud({ onClose, userId, onExito }) {
   const [form, setForm] = useState({ monto: "", plazoMeses: "12", tipoCredito: "empresarial" });
@@ -84,3 +86,4 @@ const styles = {
   btnCancelar: { flex: 1, padding: "12px 0", borderRadius: 8, border: "1.5px solid #ddd", background: "#fff", cursor: "pointer", fontSize: 15 },
   btnEnviar: { flex: 1, padding: "12px 0", borderRadius: 8, border: "none", background: "#2d6a2d", color: "#fff", cursor: "pointer", fontSize: 15, fontWeight: 600 },
 };
+

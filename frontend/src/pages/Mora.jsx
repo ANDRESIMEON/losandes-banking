@@ -1,11 +1,13 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || API_URL;
 import { useEffect, useState } from "react";
 
 const bandaConfig = {
-  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "🟢", label: "Preventiva", dias: "1-30 días" },
-  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "🟡", label: "Temprana",   dias: "31-60 días" },
-  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "🔴", label: "Tardía",     dias: "61-120 días" },
-  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "⚖️", label: "Judicial",   dias: "121-180 días" },
-  castigo:    { color: "#475569", bg: "#f8fafc", icon: "🚫", label: "Castigo",    dias: ">180 días" },
+  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "ðŸŸ¢", label: "Preventiva", dias: "1-30 dÃ­as" },
+  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "ðŸŸ¡", label: "Temprana",   dias: "31-60 dÃ­as" },
+  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "ðŸ”´", label: "TardÃ­a",     dias: "61-120 dÃ­as" },
+  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "âš–ï¸", label: "Judicial",   dias: "121-180 dÃ­as" },
+  castigo:    { color: "#475569", bg: "#f8fafc", icon: "ðŸš«", label: "Castigo",    dias: ">180 dÃ­as" },
 };
 
 export default function Mora() {
@@ -25,7 +27,7 @@ export default function Mora() {
   }, []);
 
   const handleGestion = async (moraId) => {
-    const obs = prompt("Ingrese observación de gestión:");
+    const obs = prompt("Ingrese observaciÃ³n de gestiÃ³n:");
     if (!obs) return;
     const token = localStorage.getItem("token");
     const res = await fetch("http://localhost:3000/api/mora/gestion", {
@@ -39,7 +41,7 @@ export default function Mora() {
   };
 
   const handleJudicial = async (moraId) => {
-    if (!confirm("¿Confirmas derivar este crédito a cobranza judicial? Esta acción no se puede deshacer.")) return;
+    if (!confirm("Â¿Confirmas derivar este crÃ©dito a cobranza judicial? Esta acciÃ³n no se puede deshacer.")) return;
     const token = localStorage.getItem("token");
     const res = await fetch("http://localhost:3000/api/mora/judicial", {
       method: "POST",
@@ -50,12 +52,12 @@ export default function Mora() {
     if (data.success) {
       setMora(prev => prev.map(m => m.id === moraId ? { ...m, banda: "judicial", estado_gestion: "derivado_judicial" } : m));
     } else {
-      alert(data.message); // ej: "Solo créditos con más de 120 días de mora pueden derivarse a judicial"
+      alert(data.message); // ej: "Solo crÃ©ditos con mÃ¡s de 120 dÃ­as de mora pueden derivarse a judicial"
     }
   };
 
   const handleCastigo = async (moraId) => {
-    if (!confirm("¿Confirmas castigar esta cuenta? Esta acción es definitiva.")) return;
+    if (!confirm("Â¿Confirmas castigar esta cuenta? Esta acciÃ³n es definitiva.")) return;
     const token = localStorage.getItem("token");
     const res = await fetch("http://localhost:3000/api/mora/castigo", {
       method: "POST",
@@ -66,7 +68,7 @@ export default function Mora() {
     if (data.success) {
       setMora(prev => prev.map(m => m.id === moraId ? { ...m, banda: "castigo", estado_gestion: "castigado" } : m));
     } else {
-      alert(data.message); // ej: "Solo créditos con más de 180 días pueden ser castigados"
+      alert(data.message); // ej: "Solo crÃ©ditos con mÃ¡s de 180 dÃ­as pueden ser castigados"
     }
   };
 
@@ -85,17 +87,17 @@ export default function Mora() {
           <div style={styles.logo}>LA</div>
           <div>
             <div style={styles.logoName}>Los Andes</div>
-            <div style={styles.logoSub}>Módulo de Recuperaciones</div>
+            <div style={styles.logoSub}>MÃ³dulo de Recuperaciones</div>
           </div>
         </div>
-        <button style={styles.btnVolver} onClick={() => window.location.href = "/dashboard"}>← Volver al Dashboard</button>
+        <button style={styles.btnVolver} onClick={() => window.location.href = "/dashboard"}>â† Volver al Dashboard</button>
       </div>
 
       <div style={styles.hero}>
         <h1 style={styles.heroTitle}>Bandeja de Mora</h1>
-        <p style={styles.heroSub}>Gestión de cartera morosa — {mora.length} créditos en seguimiento</p>
+        <p style={styles.heroSub}>GestiÃ³n de cartera morosa â€” {mora.length} crÃ©ditos en seguimiento</p>
         <p style={styles.heroRol}>
-          Tu rol: <strong>{usuario?.rol}</strong> {puedeEscalar ? "— puedes derivar a judicial y castigar" : "— solo gestión y observaciones (escalamiento exclusivo de Riesgos/Admin)"}
+          Tu rol: <strong>{usuario?.rol}</strong> {puedeEscalar ? "â€” puedes derivar a judicial y castigar" : "â€” solo gestiÃ³n y observaciones (escalamiento exclusivo de Riesgos/Admin)"}
         </p>
       </div>
 
@@ -120,7 +122,7 @@ export default function Mora() {
           <div style={styles.tableHeader}>
             <div>
               <span style={styles.tableTitle}>
-                {filtro === "todos" ? "Todos los créditos en mora" : `Banda: ${bandaConfig[filtro]?.label}`}
+                {filtro === "todos" ? "Todos los crÃ©ditos en mora" : `Banda: ${bandaConfig[filtro]?.label}`}
               </span>
               <span style={styles.countBadge}>{moraFiltrada.length} registros</span>
             </div>
@@ -129,7 +131,7 @@ export default function Mora() {
           <table style={styles.table}>
             <thead>
               <tr style={styles.thead}>
-                {["Banda", "Días Mora", "Monto Deuda", "Estado Gestión", "Observaciones", "Acción"].map(h => (
+                {["Banda", "DÃ­as Mora", "Monto Deuda", "Estado GestiÃ³n", "Observaciones", "AcciÃ³n"].map(h => (
                   <th key={h} style={styles.th}>{h}</th>
                 ))}
               </tr>
@@ -153,15 +155,15 @@ export default function Mora() {
                         {m.estado_gestion}
                       </span>
                     </td>
-                    <td style={styles.td}>{m.observaciones || "—"}</td>
+                    <td style={styles.td}>{m.observaciones || "â€”"}</td>
                     <td style={styles.td}>
                       <div style={styles.acciones}>
                         <button style={styles.btnGestion} onClick={() => handleGestion(m.id)}>Gestionar</button>
                         {puedeEscalar && m.dias_mora >= 121 && m.banda !== "judicial" && m.banda !== "castigo" && (
-                          <button style={styles.btnJudicial} onClick={() => handleJudicial(m.id)}>⚖️ Judicial</button>
+                          <button style={styles.btnJudicial} onClick={() => handleJudicial(m.id)}>âš–ï¸ Judicial</button>
                         )}
                         {puedeEscalar && m.dias_mora > 180 && m.banda !== "castigo" && (
-                          <button style={styles.btnCastigo} onClick={() => handleCastigo(m.id)}>🚫 Castigar</button>
+                          <button style={styles.btnCastigo} onClick={() => handleCastigo(m.id)}>ðŸš« Castigar</button>
                         )}
                       </div>
                     </td>
@@ -211,3 +213,5 @@ const styles = {
   btnCastigo: { background: "#f8fafc", color: "#475569", border: "1px solid #cbd5e1", borderRadius: 8, padding: "7px 12px", cursor: "pointer", fontSize: 12, fontWeight: 600 },
   loading: { padding: 32, color: "#64748b", fontFamily: "sans-serif" },
 };
+
+

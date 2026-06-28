@@ -36,21 +36,21 @@ export default function Dashboard() {
   }, []);
 
   const cargarAhorro = (uid, token) => {
-    fetch(`http://localhost:3000/api/ahorro/cuenta/${uid}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/ahorro/cuenta/${uid}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => { if (d.success) setCuentaAhorro(d.data); })
       .catch(() => {});
   };
 
   const cargarMovimientos = (uid, token) => {
-    fetch(`http://localhost:3000/api/ahorro/movimientos/${uid}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/ahorro/movimientos/${uid}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(d => { if (d.success) setMovimientos(d.data || []); })
       .catch(() => {});
   };
 
   const cargarSolicitudes = (uid, token) => {
-    fetch(`http://localhost:3000/api/credito/solicitudes/${uid}`, {
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/credito/solicitudes/${uid}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -96,7 +96,7 @@ export default function Dashboard() {
           {[
             { label: "Inicio",        id: "inicio" },
             { label: "Mis Cuentas",   id: "cuentas" },
-            { label: "Préstamos",     id: "creditos-dash" },
+            { label: "PrÃ©stamos",     id: "creditos-dash" },
             { label: "Transferencias",id: "transferencias" },
             { label: "Pagos",         id: "pagos" },
           ].map(l => (
@@ -111,23 +111,23 @@ export default function Dashboard() {
 
       <div style={styles.hero}>
         <div>
-          <h1 style={styles.heroTitle}>Bienvenido, {usuario.nombre || usuario.email} 👋</h1>
-          <p style={styles.heroSub}>Aquí tienes un resumen de tu actividad financiera</p>
+          <h1 style={styles.heroTitle}>Bienvenido, {usuario.nombre || usuario.email} ðŸ‘‹</h1>
+          <p style={styles.heroSub}>AquÃ­ tienes un resumen de tu actividad financiera</p>
         </div>
       </div>
 
       <div style={styles.content}>
         {exito && (
           <div style={styles.exitoBox}>
-            ✅ Solicitud enviada — Cuota mensual: <strong>S/ {exito.cuota_mensual}</strong> — Estado: <strong>{exito.estado}</strong>
+            âœ… Solicitud enviada â€” Cuota mensual: <strong>S/ {exito.cuota_mensual}</strong> â€” Estado: <strong>{exito.estado}</strong>
           </div>
         )}
 
         <div id="cuentas" style={{ ...styles.cards, scrollMarginTop: 90 }}>
           {[
-            { label: "Cuenta de Ahorros", value: `S/ ${Number(cuentaAhorro?.saldo || 0).toFixed(2)}`, sub: cuentaAhorro ? "Saldo disponible" : "Sin cuenta de ahorros", icon: "🏦", color: "#b91c1c" },
-            { label: "Créditos Activos", value: solicitudes.filter(s => s.estado !== "rechazado").length.toString(), sub: "Solicitudes activas", icon: "📋", color: "#8b5cf6" },
-            { label: "Próxima Cuota", value: `S/ ${solicitudes.find(s => s.estado === "desembolsado")?.cuota_mensual || solicitudes[0]?.cuota_mensual || "0.00"}`, sub: solicitudes.length ? "Ver detalle abajo" : "Sin cuotas pendientes", icon: "📅", color: "#059669" },
+            { label: "Cuenta de Ahorros", value: `S/ ${Number(cuentaAhorro?.saldo || 0).toFixed(2)}`, sub: cuentaAhorro ? "Saldo disponible" : "Sin cuenta de ahorros", icon: "ðŸ¦", color: "#b91c1c" },
+            { label: "CrÃ©ditos Activos", value: solicitudes.filter(s => s.estado !== "rechazado").length.toString(), sub: "Solicitudes activas", icon: "ðŸ“‹", color: "#8b5cf6" },
+            { label: "PrÃ³xima Cuota", value: `S/ ${solicitudes.find(s => s.estado === "desembolsado")?.cuota_mensual || solicitudes[0]?.cuota_mensual || "0.00"}`, sub: solicitudes.length ? "Ver detalle abajo" : "Sin cuotas pendientes", icon: "ðŸ“…", color: "#059669" },
           ].map((c, i) => (
             <div key={i} style={styles.card}>
               <div style={{ ...styles.cardIcon, background: c.color + "15", color: c.color }}>{c.icon}</div>
@@ -139,19 +139,19 @@ export default function Dashboard() {
         </div>
 
         <div id="creditos-dash" style={{ ...styles.section, scrollMarginTop: 90 }}>
-          <p style={styles.sectionDesc}>Accede a créditos agropecuarios, PYME o personales con las mejores tasas de Los Andes.</p>
+          <p style={styles.sectionDesc}>Accede a crÃ©ditos agropecuarios, PYME o personales con las mejores tasas de Los Andes.</p>
           <div style={styles.btnRow}>
             <button style={styles.btnPrimary} onClick={() => setModalOpen(true)}>+ Nueva Solicitud</button>
-            <button style={{...styles.btnSecondary, borderColor:"#b91c1c", color:"#b91c1c"}} onClick={() => window.location.href="/calculadora.html"}>📊 Calculadora 30 Casos</button>
+            <button style={{...styles.btnSecondary, borderColor:"#b91c1c", color:"#b91c1c"}} onClick={() => window.location.href="/calculadora.html"}>ðŸ“Š Calculadora 30 Casos</button>
             {ROLES_STAFF.includes(usuario?.rol) && (
               <>
                 <button style={styles.btnSecondary} onClick={() => window.location.href="/mora"}>Ver Bandeja de Mora</button>
-                <button style={{...styles.btnSecondary, borderColor:"#7c3aed", color:"#7c3aed"}} onClick={() => window.location.href="/core"}>🏦 Panel Core</button>
+                <button style={{...styles.btnSecondary, borderColor:"#7c3aed", color:"#7c3aed"}} onClick={() => window.location.href="/core"}>ðŸ¦ Panel Core</button>
               </>
             )}
           </div>
           {!ROLES_STAFF.includes(usuario?.rol) && (
-            <p style={styles.staffHint}>🔒 Bandeja de Mora y Panel Core son exclusivos para personal autorizado de Los Andes.</p>
+            <p style={styles.staffHint}>ðŸ”’ Bandeja de Mora y Panel Core son exclusivos para personal autorizado de Los Andes.</p>
           )}
         </div>
 
@@ -162,7 +162,7 @@ export default function Dashboard() {
               <div key={i} style={styles.solicitudRow}>
                 <div>
                   <div style={styles.solicitudMonto}>S/ {Number(s.monto).toFixed(2)}</div>
-                  <div style={styles.solicitudDetalle}>{s.plazo_meses} meses — TEA {s.tasa_anual}% — Cuota S/ {Number(s.cuota_mensual).toFixed(2)}</div>
+                  <div style={styles.solicitudDetalle}>{s.plazo_meses} meses â€” TEA {s.tasa_anual}% â€” Cuota S/ {Number(s.cuota_mensual).toFixed(2)}</div>
                 </div>
                 <span style={{ padding:"5px 12px", borderRadius:20, fontSize:12, fontWeight:600, background: estadoBg[s.estado] || "#f1f5f9", color: estadoColor[s.estado] || "#64748b" }}>
                   {s.estado}
@@ -175,13 +175,13 @@ export default function Dashboard() {
         {movimientos.length > 0 && (
           <div id="movimientos" style={{ ...styles.section, scrollMarginTop: 90 }}>
             <h2 style={styles.sectionTitle}>Movimientos de Cuenta</h2>
-            <p style={styles.sectionDesc}>Historial de depósitos y desembolsos en tu cuenta de ahorros.</p>
+            <p style={styles.sectionDesc}>Historial de depÃ³sitos y desembolsos en tu cuenta de ahorros.</p>
             {movimientos.map((m, i) => (
               <div key={i} style={styles.solicitudRow}>
                 <div>
                   <div style={styles.solicitudMonto}>+ S/ {Number(m.monto).toFixed(2)}</div>
                   <div style={styles.solicitudDetalle}>
-                    {m.descripcion} — {new Date(m.created_at).toLocaleDateString("es-PE")}
+                    {m.descripcion} â€” {new Date(m.created_at).toLocaleDateString("es-PE")}
                   </div>
                 </div>
                 <span style={{ padding:"5px 12px", borderRadius:20, fontSize:12, fontWeight:600, background: "#ecfdf5", color: "#059669" }}>
@@ -194,15 +194,15 @@ export default function Dashboard() {
 
         <div id="transferencias" style={{ ...styles.section, scrollMarginTop: 90 }}>
           <h2 style={styles.sectionTitle}>Transferencias</h2>
-          <p style={styles.sectionDesc}>Transferencias entre cuentas Los Andes y a otros bancos. Esta función estará disponible próximamente.</p>
-          <div style={styles.proximamente}>🚧 Módulo en construcción para este proyecto académico</div>
+          <p style={styles.sectionDesc}>Transferencias entre cuentas Los Andes y a otros bancos. Esta funciÃ³n estarÃ¡ disponible prÃ³ximamente.</p>
+          <div style={styles.proximamente}>ðŸš§ MÃ³dulo en construcciÃ³n para este proyecto acadÃ©mico</div>
         </div>
 
 
         <div id="pagos" style={{ ...styles.section, scrollMarginTop: 90 }}>
           <h2 style={styles.sectionTitle}>Pagos</h2>
-          <p style={styles.sectionDesc}>Paga tus cuotas de crédito, servicios y recibos directamente desde tu cuenta.</p>
-          <div style={styles.proximamente}>🚧 Módulo en construcción para este proyecto académico</div>
+          <p style={styles.sectionDesc}>Paga tus cuotas de crÃ©dito, servicios y recibos directamente desde tu cuenta.</p>
+          <div style={styles.proximamente}>ðŸš§ MÃ³dulo en construcciÃ³n para este proyecto acadÃ©mico</div>
         </div>
       </div>
     </div>
@@ -244,3 +244,5 @@ const styles = {
   solicitudMonto: { fontSize: 16, fontWeight: 700, color: "#0f172a" },
   solicitudDetalle: { fontSize: 12, color: "#64748b", marginTop: 2 },
 };
+
+

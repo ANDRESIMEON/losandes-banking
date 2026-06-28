@@ -1,30 +1,32 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 import { useEffect, useState } from "react";
 
 const bandaConfig = {
-  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "🟢", label: "Preventiva" },
-  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "🟡", label: "Temprana" },
-  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "🔴", label: "Tardía" },
-  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "⚖️", label: "Judicial" },
-  castigo:    { color: "#475569", bg: "#f8fafc", icon: "🚫", label: "Castigo" },
+  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "Ã°Å¸Å¸Â¢", label: "Preventiva" },
+  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "Ã°Å¸Å¸Â¡", label: "Temprana" },
+  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "Ã°Å¸â€Â´", label: "TardÃƒÂ­a" },
+  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "Ã¢Å¡â€“Ã¯Â¸Â", label: "Judicial" },
+  castigo:    { color: "#475569", bg: "#f8fafc", icon: "Ã°Å¸Å¡Â«", label: "Castigo" },
 };
 const estadoConfig = {
   pendiente:            { color: "#d97706", bg: "#fffbeb", label: "Pendiente" },
-  en_evaluacion:        { color: "#0ea5e9", bg: "#e0f2fe", label: "En Evaluación" },
+  en_evaluacion:        { color: "#0ea5e9", bg: "#e0f2fe", label: "En EvaluaciÃƒÂ³n" },
   rechazado_automatico: { color: "#dc2626", bg: "#fef2f2", label: "Rechazado (RDS)" },
   aprobado_scoring:     { color: "#7c3aed", bg: "#f5f3ff", label: "Aprobado por Scoring" },
-  en_comite:            { color: "#f59e0b", bg: "#fef3c7", label: "En Comité" },
+  en_comite:            { color: "#f59e0b", bg: "#fef3c7", label: "En ComitÃƒÂ©" },
   aprobado:             { color: "#059669", bg: "#ecfdf5", label: "Aprobado" },
   rechazado:            { color: "#dc2626", bg: "#fef2f2", label: "Rechazado" },
   desembolsado:         { color: "#b91c1c", bg: "#fee2e2", label: "Desembolsado" },
 };
 
 const TABS = [
-  { key: "dashboard", label: "Dashboard", icon: "📊" },
-  { key: "bandeja",   label: "Bandeja de Solicitudes", icon: "📋" },
-  { key: "comite",    label: "Propuesta y Comité", icon: "👥" },
-  { key: "desembolso",label: "Aprobación y Desembolso", icon: "💰" },
-  { key: "mora",      label: "Mora y Recuperación", icon: "⚠️" },
-  { key: "ahorros",   label: "Captaciones / Ahorros", icon: "🏦" },
+  { key: "dashboard", label: "Dashboard", icon: "Ã°Å¸â€œÅ " },
+  { key: "bandeja",   label: "Bandeja de Solicitudes", icon: "Ã°Å¸â€œâ€¹" },
+  { key: "comite",    label: "Propuesta y ComitÃƒÂ©", icon: "Ã°Å¸â€˜Â¥" },
+  { key: "desembolso",label: "AprobaciÃƒÂ³n y Desembolso", icon: "Ã°Å¸â€™Â°" },
+  { key: "mora",      label: "Mora y RecuperaciÃƒÂ³n", icon: "Ã¢Å¡Â Ã¯Â¸Â" },
+  { key: "ahorros",   label: "Captaciones / Ahorros", icon: "Ã°Å¸ÂÂ¦" },
 ];
 
 export default function Core() {
@@ -81,7 +83,7 @@ export default function Core() {
         alert("Error al evaluar: " + (data.message || "Error desconocido"));
       }
     } catch (err) {
-      alert("Error de conexión con el servidor: " + err.message);
+      alert("Error de conexiÃƒÂ³n con el servidor: " + err.message);
     }
   };
 
@@ -111,8 +113,8 @@ export default function Core() {
               <td style={styles.td}>{s.user_id?.slice(0, 8)}...</td>
               <td style={{ ...styles.td, fontWeight: 700 }}>S/ {Number(s.monto).toFixed(2)}</td>
               <td style={{ ...styles.td, color: "#059669" }}>S/ {Number(s.cuota_mensual).toFixed(2)}</td>
-              <td style={styles.td}>{s.rds != null ? `${s.rds}%` : "—"}</td>
-              <td style={styles.td}>{s.score != null ? s.score : "—"}</td>
+              <td style={styles.td}>{s.rds != null ? `${s.rds}%` : "Ã¢â‚¬â€"}</td>
+              <td style={styles.td}>{s.score != null ? s.score : "Ã¢â‚¬â€"}</td>
               <td style={styles.td}><span style={{ ...styles.badge, background: cfg.bg, color: cfg.color }}>{cfg.label}</span></td>
               <td style={styles.td}>
                 <div style={styles.acciones}>
@@ -120,14 +122,14 @@ export default function Core() {
                   {(s.estado === "aprobado_scoring" || s.estado === "en_comite") && (
                     <>
                       {puedeAprobar
-                        ? <button style={styles.btnAprobar} onClick={() => handleEstado(s.id, "aprobado")}>✓ Aprobar</button>
-                        : <span style={styles.soloLectura} title="Solo Comité, Gerencia o Admin pueden aprobar">🔒 Aprobar</span>
+                        ? <button style={styles.btnAprobar} onClick={() => handleEstado(s.id, "aprobado")}>Ã¢Å“â€œ Aprobar</button>
+                        : <span style={styles.soloLectura} title="Solo ComitÃƒÂ©, Gerencia o Admin pueden aprobar">Ã°Å¸â€â€™ Aprobar</span>
                       }
-                      <button style={styles.btnRechazar} onClick={() => handleEstado(s.id, "rechazado")}>✗ Rechazar</button>
+                      <button style={styles.btnRechazar} onClick={() => handleEstado(s.id, "rechazado")}>Ã¢Å“â€” Rechazar</button>
                     </>
                   )}
-                  {s.estado === "aprobado" && <button style={styles.btnDesembolsar} onClick={() => handleEstado(s.id, "desembolsado")}>💰 Desembolsar</button>}
-                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>—</span>}
+                  {s.estado === "aprobado" && <button style={styles.btnDesembolsar} onClick={() => handleEstado(s.id, "desembolsado")}>Ã°Å¸â€™Â° Desembolsar</button>}
+                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>Ã¢â‚¬â€</span>}
                 </div>
               </td>
             </tr>
@@ -142,10 +144,10 @@ export default function Core() {
       <>
         <div style={styles.kpiRow}>
           {[
-            { label: "Total Solicitudes", value: solicitudes.length, color: "#b91c1c", icon: "📋" },
-            { label: "Pendientes",        value: pendientes.length,  color: "#d97706", icon: "⏳" },
-            { label: "En Comité",         value: enComite.length,    color: "#7c3aed", icon: "👥" },
-            { label: "Desembolsadas",     value: solicitudes.filter(s=>s.estado==="desembolsado").length, color: "#059669", icon: "💰" },
+            { label: "Total Solicitudes", value: solicitudes.length, color: "#b91c1c", icon: "Ã°Å¸â€œâ€¹" },
+            { label: "Pendientes",        value: pendientes.length,  color: "#d97706", icon: "Ã¢ÂÂ³" },
+            { label: "En ComitÃƒÂ©",         value: enComite.length,    color: "#7c3aed", icon: "Ã°Å¸â€˜Â¥" },
+            { label: "Desembolsadas",     value: solicitudes.filter(s=>s.estado==="desembolsado").length, color: "#059669", icon: "Ã°Å¸â€™Â°" },
           ].map((k, i) => (
             <div key={i} style={styles.kpiCard}>
               <div style={{ ...styles.kpiIcon, background: k.color + "15", color: k.color }}>{k.icon}</div>
@@ -155,7 +157,7 @@ export default function Core() {
           ))}
         </div>
         <div style={styles.tableCard}>
-          <div style={styles.tableHeader}><span style={styles.tableTitle}>Últimas solicitudes</span></div>
+          <div style={styles.tableHeader}><span style={styles.tableTitle}>ÃƒÅ¡ltimas solicitudes</span></div>
           {renderTabla(solicitudes.slice(0, 5))}
         </div>
       </>
@@ -177,19 +179,19 @@ export default function Core() {
     );
     if (vista === "comite") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y Comité — pendientes de resolución</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y ComitÃƒÂ© Ã¢â‚¬â€ pendientes de resoluciÃƒÂ³n</span></div>
         {renderTabla(enComite)}
       </div>
     );
     if (vista === "desembolso") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Aprobación y Desembolso</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>AprobaciÃƒÂ³n y Desembolso</span></div>
         {renderTabla(aprobadas)}
       </div>
     );
     if (vista === "mora") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Bandeja de Mora — {mora.length} créditos</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Bandeja de Mora Ã¢â‚¬â€ {mora.length} crÃƒÂ©ditos</span></div>
         <div style={{ padding: "16px 20px 0", display: "flex", gap: 10, flexWrap: "wrap" }}>
           {Object.entries(bandaConfig).map(([b, cfg]) => (
             <div key={b} style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600, background: cfg.bg, color: cfg.color }}>
@@ -198,7 +200,7 @@ export default function Core() {
           ))}
         </div>
         <table style={styles.table}>
-          <thead><tr style={styles.thead}>{["Banda","Días Mora","Monto Deuda","Estado","Observaciones"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
+          <thead><tr style={styles.thead}>{["Banda","DÃƒÂ­as Mora","Monto Deuda","Estado","Observaciones"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
           <tbody>
             {mora.length === 0 ? <tr><td colSpan={5} style={{textAlign:"center",padding:32,color:"#94a3b8"}}>Sin registros de mora</td></tr>
               : mora.map((m,i)=>{const cfg=bandaConfig[m.banda]||bandaConfig.preventiva;return(
@@ -207,7 +209,7 @@ export default function Core() {
                 <td style={{...styles.td,fontWeight:700,color:cfg.color}}>{m.dias_mora}</td>
                 <td style={styles.td}>S/ {Number(m.monto_deuda).toFixed(2)}</td>
                 <td style={styles.td}>{m.estado_gestion}</td>
-                <td style={styles.td}>{m.observaciones||"—"}</td>
+                <td style={styles.td}>{m.observaciones||"Ã¢â‚¬â€"}</td>
               </tr>);})}
           </tbody>
         </table>
@@ -215,9 +217,9 @@ export default function Core() {
     );
     if (vista === "ahorros") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones — Cuentas de Ahorro ({cuentas.length})</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones Ã¢â‚¬â€ Cuentas de Ahorro ({cuentas.length})</span></div>
         <table style={styles.table}>
-          <thead><tr style={styles.thead}>{["Cliente ID","Saldo","Meta Ahorro","Tasa Interés","Fecha Apertura"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
+          <thead><tr style={styles.thead}>{["Cliente ID","Saldo","Meta Ahorro","Tasa InterÃƒÂ©s","Fecha Apertura"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
           <tbody>
             {cuentas.length === 0 ? <tr><td colSpan={5} style={{textAlign:"center",padding:32,color:"#94a3b8"}}>Sin cuentas registradas</td></tr>
               : cuentas.map((c,i)=>(
@@ -240,7 +242,7 @@ export default function Core() {
       {evalModal && (
         <div style={styles.overlay} onClick={(e) => e.target === e.currentTarget && setEvalModal(null)}>
           <div style={styles.modal}>
-            <h3 style={styles.modalTitle}>Registrar Evaluación — S/ {Number(evalModal.monto).toFixed(2)}</h3>
+            <h3 style={styles.modalTitle}>Registrar EvaluaciÃƒÂ³n Ã¢â‚¬â€ S/ {Number(evalModal.monto).toFixed(2)}</h3>
             <p style={styles.modalSub}>Cuota mensual: S/ {Number(evalModal.cuota_mensual).toFixed(2)}</p>
             <div style={styles.field}>
               <label style={styles.label}>Ingreso Neto Mensual (S/)</label>
@@ -263,10 +265,10 @@ export default function Core() {
           <div style={styles.logo}>LA</div>
           <div>
             <div style={styles.logoName}>Los Andes</div>
-            <div style={styles.logoSub}>Core Bancario — Rol: {usuario?.rol || "staff"}</div>
+            <div style={styles.logoSub}>Core Bancario Ã¢â‚¬â€ Rol: {usuario?.rol || "staff"}</div>
           </div>
         </div>
-        <button style={styles.btnVolver} onClick={() => window.location.href="/dashboard"}>← Dashboard</button>
+        <button style={styles.btnVolver} onClick={() => window.location.href="/dashboard"}>Ã¢â€ Â Dashboard</button>
       </nav>
 
       <div style={styles.tabsBar}>
@@ -328,3 +330,5 @@ const styles = {
   btnCancel: { flex: 1, padding: "11px 0", borderRadius: 8, border: "1.5px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 14 },
   btnEval: { flex: 1, padding: "11px 0", borderRadius: 8, border: "none", background: "linear-gradient(135deg, #b91c1c, #ef4444)", color: "#fff", cursor: "pointer", fontSize: 14, fontWeight: 600 },
 };
+
+
