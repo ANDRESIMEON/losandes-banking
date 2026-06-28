@@ -3,30 +3,30 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 import { useEffect, useState } from "react";
 
 const bandaConfig = {
-  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¢", label: "Preventiva" },
-  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "ÃƒÂ°Ã…Â¸Ã…Â¸Ã‚Â¡", label: "Temprana" },
-  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â´", label: "TardÃƒÆ’Ã‚Â­a" },
-  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€œÃƒÂ¯Ã‚Â¸Ã‚Â", label: "Judicial" },
-  castigo:    { color: "#475569", bg: "#f8fafc", icon: "ÃƒÂ°Ã…Â¸Ã…Â¡Ã‚Â«", label: "Castigo" },
+  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¢", label: "Preventiva" },
+  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚Â¡", label: "Temprana" },
+  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â´", label: "TardÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­a" },
+  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã‚Â¡ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â", label: "Judicial" },
+  castigo:    { color: "#475569", bg: "#f8fafc", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â¡Ãƒâ€šÃ‚Â«", label: "Castigo" },
 };
 const estadoConfig = {
   pendiente:            { color: "#d97706", bg: "#fffbeb", label: "Pendiente" },
-  en_evaluacion:        { color: "#0ea5e9", bg: "#e0f2fe", label: "En EvaluaciÃƒÆ’Ã‚Â³n" },
+  en_evaluacion:        { color: "#0ea5e9", bg: "#e0f2fe", label: "En EvaluaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n" },
   rechazado_automatico: { color: "#dc2626", bg: "#fef2f2", label: "Rechazado (RDS)" },
   aprobado_scoring:     { color: "#7c3aed", bg: "#f5f3ff", label: "Aprobado por Scoring" },
-  en_comite:            { color: "#f59e0b", bg: "#fef3c7", label: "En ComitÃƒÆ’Ã‚Â©" },
+  en_comite:            { color: "#f59e0b", bg: "#fef3c7", label: "En ComitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©" },
   aprobado:             { color: "#059669", bg: "#ecfdf5", label: "Aprobado" },
   rechazado:            { color: "#dc2626", bg: "#fef2f2", label: "Rechazado" },
   desembolsado:         { color: "#b91c1c", bg: "#fee2e2", label: "Desembolsado" },
 };
 
 const TABS = [
-  { key: "dashboard", label: "Dashboard", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â " },
-  { key: "bandeja",   label: "Bandeja de Solicitudes", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹" },
-  { key: "comite",    label: "Propuesta y ComitÃƒÆ’Ã‚Â©", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥" },
-  { key: "desembolso",label: "AprobaciÃƒÆ’Ã‚Â³n y Desembolso", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â°" },
-  { key: "mora",      label: "Mora y RecuperaciÃƒÆ’Ã‚Â³n", icon: "ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â" },
-  { key: "ahorros",   label: "Captaciones / Ahorros", icon: "ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â¦" },
+  { key: "dashboard", label: "Dashboard", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒâ€¦Ã‚Â " },
+  { key: "bandeja",   label: "Bandeja de Solicitudes", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹" },
+  { key: "comite",    label: "Propuesta y ComitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“Ãƒâ€šÃ‚Â¥" },
+  { key: "desembolso",label: "AprobaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n y Desembolso", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â°" },
+  { key: "mora",      label: "Mora y RecuperaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n", icon: "ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã‚Â¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¸Ãƒâ€šÃ‚Â" },
+  { key: "ahorros",   label: "Captaciones / Ahorros", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€šÃ‚ÂÃƒâ€šÃ‚Â¦" },
 ];
 
 export default function Core() {
@@ -49,18 +49,18 @@ export default function Core() {
   const cargar = () => {
     const token = localStorage.getItem("token");
     if (!token) { window.location.href = "/"; return; }
-    fetch(API_URL +/api/credito/todas", { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/credito/todas`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json()).then(d => { setSolicitudes(d.data || []); setLoading(false); }).catch(() => setLoading(false));
-    fetch(API_URL +/api/ahorro/todas", { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/ahorro/todas`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json()).then(d => setCuentas(d.data || [])).catch(() => {});
-    fetch(API_URL +/api/mora/", { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/mora/`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json()).then(d => setMora(d.data || [])).catch(() => {});
   };
 
   const handleEstado = async (solicitudId, estado) => {
     const motivo = estado === "rechazado" ? prompt("Motivo de rechazo:") : null;
     const token = localStorage.getItem("token");
-    await fetch(API_URL +/api/credito/estado", {
+    await fetch(`${API_URL}/api/credito/estado`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ solicitudId, estado, motivo })
@@ -71,7 +71,7 @@ export default function Core() {
   const handleEvaluar = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(API_URL +/api/credito/evaluacion", {
+      const res = await fetch(`${API_URL}/api/credito/evaluacion`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ solicitudId: evalModal.id, ingresoNeto: parseFloat(ingresoNeto), gastoFamiliar: parseFloat(gastoFamiliar) })
@@ -83,7 +83,7 @@ export default function Core() {
         alert("Error al evaluar: " + (data.message || "Error desconocido"));
       }
     } catch (err) {
-      alert("Error de conexiÃƒÆ’Ã‚Â³n con el servidor: " + err.message);
+      alert("Error de conexiÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n con el servidor: " + err.message);
     }
   };
 
@@ -113,8 +113,8 @@ export default function Core() {
               <td style={styles.td}>{s.user_id?.slice(0, 8)}...</td>
               <td style={{ ...styles.td, fontWeight: 700 }}>S/ {Number(s.monto).toFixed(2)}</td>
               <td style={{ ...styles.td, color: "#059669" }}>S/ {Number(s.cuota_mensual).toFixed(2)}</td>
-              <td style={styles.td}>{s.rds != null ? `${s.rds}%` : "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</td>
-              <td style={styles.td}>{s.score != null ? s.score : "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</td>
+              <td style={styles.td}>{s.rds != null ? `${s.rds}%` : "ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â"}</td>
+              <td style={styles.td}>{s.score != null ? s.score : "ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â"}</td>
               <td style={styles.td}><span style={{ ...styles.badge, background: cfg.bg, color: cfg.color }}>{cfg.label}</span></td>
               <td style={styles.td}>
                 <div style={styles.acciones}>
@@ -122,14 +122,14 @@ export default function Core() {
                   {(s.estado === "aprobado_scoring" || s.estado === "en_comite") && (
                     <>
                       {puedeAprobar
-                        ? <button style={styles.btnAprobar} onClick={() => handleEstado(s.id, "aprobado")}>ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Aprobar</button>
-                        : <span style={styles.soloLectura} title="Solo ComitÃƒÆ’Ã‚Â©, Gerencia o Admin pueden aprobar">ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ Aprobar</span>
+                        ? <button style={styles.btnAprobar} onClick={() => handleEstado(s.id, "aprobado")}>ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ Aprobar</button>
+                        : <span style={styles.soloLectura} title="Solo ComitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©, Gerencia o Admin pueden aprobar">ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ Aprobar</span>
                       }
-                      <button style={styles.btnRechazar} onClick={() => handleEstado(s.id, "rechazado")}>ÃƒÂ¢Ã…â€œÃ¢â‚¬â€ Rechazar</button>
+                      <button style={styles.btnRechazar} onClick={() => handleEstado(s.id, "rechazado")}>ÃƒÆ’Ã‚Â¢Ãƒâ€¦Ã¢â‚¬Å“ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Rechazar</button>
                     </>
                   )}
-                  {s.estado === "aprobado" && <button style={styles.btnDesembolsar} onClick={() => handleEstado(s.id, "desembolsado")}>ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â° Desembolsar</button>}
-                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</span>}
+                  {s.estado === "aprobado" && <button style={styles.btnDesembolsar} onClick={() => handleEstado(s.id, "desembolsado")}>ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â° Desembolsar</button>}
+                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â</span>}
                 </div>
               </td>
             </tr>
@@ -144,10 +144,10 @@ export default function Core() {
       <>
         <div style={styles.kpiRow}>
           {[
-            { label: "Total Solicitudes", value: solicitudes.length, color: "#b91c1c", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹" },
-            { label: "Pendientes",        value: pendientes.length,  color: "#d97706", icon: "ÃƒÂ¢Ã‚ÂÃ‚Â³" },
-            { label: "En ComitÃƒÆ’Ã‚Â©",         value: enComite.length,    color: "#7c3aed", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¥" },
-            { label: "Desembolsadas",     value: solicitudes.filter(s=>s.estado==="desembolsado").length, color: "#059669", icon: "ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â°" },
+            { label: "Total Solicitudes", value: solicitudes.length, color: "#b91c1c", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹" },
+            { label: "Pendientes",        value: pendientes.length,  color: "#d97706", icon: "ÃƒÆ’Ã‚Â¢Ãƒâ€šÃ‚ÂÃƒâ€šÃ‚Â³" },
+            { label: "En ComitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©",         value: enComite.length,    color: "#7c3aed", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“Ãƒâ€šÃ‚Â¥" },
+            { label: "Desembolsadas",     value: solicitudes.filter(s=>s.estado==="desembolsado").length, color: "#059669", icon: "ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â°" },
           ].map((k, i) => (
             <div key={i} style={styles.kpiCard}>
               <div style={{ ...styles.kpiIcon, background: k.color + "15", color: k.color }}>{k.icon}</div>
@@ -157,7 +157,7 @@ export default function Core() {
           ))}
         </div>
         <div style={styles.tableCard}>
-          <div style={styles.tableHeader}><span style={styles.tableTitle}>ÃƒÆ’Ã…Â¡ltimas solicitudes</span></div>
+          <div style={styles.tableHeader}><span style={styles.tableTitle}>ÃƒÆ’Ã†â€™Ãƒâ€¦Ã‚Â¡ltimas solicitudes</span></div>
           {renderTabla(solicitudes.slice(0, 5))}
         </div>
       </>
@@ -179,19 +179,19 @@ export default function Core() {
     );
     if (vista === "comite") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y ComitÃƒÆ’Ã‚Â© ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pendientes de resoluciÃƒÆ’Ã‚Â³n</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y ComitÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â pendientes de resoluciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n</span></div>
         {renderTabla(enComite)}
       </div>
     );
     if (vista === "desembolso") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>AprobaciÃƒÆ’Ã‚Â³n y Desembolso</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>AprobaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n y Desembolso</span></div>
         {renderTabla(aprobadas)}
       </div>
     );
     if (vista === "mora") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Bandeja de Mora ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â {mora.length} crÃƒÆ’Ã‚Â©ditos</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Bandeja de Mora ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â {mora.length} crÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©ditos</span></div>
         <div style={{ padding: "16px 20px 0", display: "flex", gap: 10, flexWrap: "wrap" }}>
           {Object.entries(bandaConfig).map(([b, cfg]) => (
             <div key={b} style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, fontWeight: 600, background: cfg.bg, color: cfg.color }}>
@@ -200,7 +200,7 @@ export default function Core() {
           ))}
         </div>
         <table style={styles.table}>
-          <thead><tr style={styles.thead}>{["Banda","DÃƒÆ’Ã‚Â­as Mora","Monto Deuda","Estado","Observaciones"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
+          <thead><tr style={styles.thead}>{["Banda","DÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­as Mora","Monto Deuda","Estado","Observaciones"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
           <tbody>
             {mora.length === 0 ? <tr><td colSpan={5} style={{textAlign:"center",padding:32,color:"#94a3b8"}}>Sin registros de mora</td></tr>
               : mora.map((m,i)=>{const cfg=bandaConfig[m.banda]||bandaConfig.preventiva;return(
@@ -209,7 +209,7 @@ export default function Core() {
                 <td style={{...styles.td,fontWeight:700,color:cfg.color}}>{m.dias_mora}</td>
                 <td style={styles.td}>S/ {Number(m.monto_deuda).toFixed(2)}</td>
                 <td style={styles.td}>{m.estado_gestion}</td>
-                <td style={styles.td}>{m.observaciones||"ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}</td>
+                <td style={styles.td}>{m.observaciones||"ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â"}</td>
               </tr>);})}
           </tbody>
         </table>
@@ -217,9 +217,9 @@ export default function Core() {
     );
     if (vista === "ahorros") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cuentas de Ahorro ({cuentas.length})</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Cuentas de Ahorro ({cuentas.length})</span></div>
         <table style={styles.table}>
-          <thead><tr style={styles.thead}>{["Cliente ID","Saldo","Meta Ahorro","Tasa InterÃƒÆ’Ã‚Â©s","Fecha Apertura"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
+          <thead><tr style={styles.thead}>{["Cliente ID","Saldo","Meta Ahorro","Tasa InterÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©s","Fecha Apertura"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
           <tbody>
             {cuentas.length === 0 ? <tr><td colSpan={5} style={{textAlign:"center",padding:32,color:"#94a3b8"}}>Sin cuentas registradas</td></tr>
               : cuentas.map((c,i)=>(
@@ -242,7 +242,7 @@ export default function Core() {
       {evalModal && (
         <div style={styles.overlay} onClick={(e) => e.target === e.currentTarget && setEvalModal(null)}>
           <div style={styles.modal}>
-            <h3 style={styles.modalTitle}>Registrar EvaluaciÃƒÆ’Ã‚Â³n ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â S/ {Number(evalModal.monto).toFixed(2)}</h3>
+            <h3 style={styles.modalTitle}>Registrar EvaluaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â S/ {Number(evalModal.monto).toFixed(2)}</h3>
             <p style={styles.modalSub}>Cuota mensual: S/ {Number(evalModal.cuota_mensual).toFixed(2)}</p>
             <div style={styles.field}>
               <label style={styles.label}>Ingreso Neto Mensual (S/)</label>
@@ -265,10 +265,10 @@ export default function Core() {
           <div style={styles.logo}>LA</div>
           <div>
             <div style={styles.logoName}>Los Andes</div>
-            <div style={styles.logoSub}>Core Bancario ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Rol: {usuario?.rol || "staff"}</div>
+            <div style={styles.logoSub}>Core Bancario ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Rol: {usuario?.rol || "staff"}</div>
           </div>
         </div>
-        <button style={styles.btnVolver} onClick={() => window.location.href="/dashboard"}>ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Dashboard</button>
+        <button style={styles.btnVolver} onClick={() => window.location.href="/dashboard"}>ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Ãƒâ€šÃ‚Â Dashboard</button>
       </nav>
 
       <div style={styles.tabsBar}>
