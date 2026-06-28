@@ -15,7 +15,7 @@ export default function LoginModal({ open, onClose }) {
     setError(""); setSuccess("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/login", {
+      const res = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: loginData.email, password: loginData.password }),
@@ -43,7 +43,7 @@ export default function LoginModal({ open, onClose }) {
     }
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/auth/register", {
+      const res = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerData),
@@ -52,7 +52,7 @@ export default function LoginModal({ open, onClose }) {
       if (!res.ok || !data.success) throw new Error(data.message || "Error al registrarse");
 
       // Si Supabase tiene "confirmar email" desactivado, intentamos loguear directo
-      const loginRes = await fetch("http://localhost:3000/api/auth/login", {
+      const loginRes = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: registerData.email, password: registerData.password }),
@@ -224,3 +224,4 @@ const styles = {
   btnSubmit: { background: "linear-gradient(135deg, #b91c1c, #ef4444)", color: "#fff", border: "none", borderRadius: 10, padding: "13px 0", fontSize: 15, fontWeight: 600, cursor: "pointer", marginTop: 4, transition: "opacity 0.2s" },
   hint: { fontSize: 11, color: "#94a3b8", textAlign: "center", margin: "4px 0 0" },
 };
+
