@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 export default function LoginModal({ open, onClose }) {
   const [tab, setTab] = useState("login");
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -15,20 +17,18 @@ export default function LoginModal({ open, onClose }) {
     setError(""); setSuccess("");
     setLoading(true);
     try {
-      const res = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: loginData.email, password: loginData.password }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.message || "Credenciales incorrectas");
-      // Guardar sesión
       localStorage.setItem("token", data.data.token);
       localStorage.setItem("usuario", JSON.stringify(data.data.usuario));
-      // Redirigir al dashboard
       window.location.href = "/dashboard";
     } catch (err) {
-      setError(err.message || "Error al iniciar sesión. Verifica tus datos.");
+      setError(err.message || "Error al iniciar sesion. Verifica tus datos.");
     } finally {
       setLoading(false);
     }
@@ -38,12 +38,12 @@ export default function LoginModal({ open, onClose }) {
     e.preventDefault();
     setError(""); setSuccess("");
     if (registerData.password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
+      setError("La contrasena debe tener al menos 6 caracteres");
       return;
     }
     setLoading(true);
     try {
-      const res = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(registerData),
@@ -51,8 +51,7 @@ export default function LoginModal({ open, onClose }) {
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.message || "Error al registrarse");
 
-      // Si Supabase tiene "confirmar email" desactivado, intentamos loguear directo
-      const loginRes = await fetch("import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || "http://localhost:3000")"/api/auth/login", {
+      const loginRes = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: registerData.email, password: registerData.password }),
@@ -60,15 +59,13 @@ export default function LoginModal({ open, onClose }) {
       const loginData = await loginRes.json();
 
       if (loginRes.ok && loginData.success) {
-        // Cuenta creada y sesión iniciada automáticamente
         localStorage.setItem("token", loginData.data.token);
         localStorage.setItem("usuario", JSON.stringify(loginData.data.usuario));
         window.location.href = "/dashboard";
         return;
       }
 
-      // Si no se pudo loguear directo, es porque requiere confirmación de correo
-      setSuccess("¡Cuenta creada! Revisa tu correo para confirmar tu cuenta y luego inicia sesión.");
+      setSuccess("Cuenta creada! Revisa tu correo para confirmar tu cuenta y luego inicia sesion.");
       setRegisterData({ nombre: "", email: "", password: "" });
       setTimeout(() => setTab("login"), 3000);
     } catch (err) {
@@ -81,114 +78,59 @@ export default function LoginModal({ open, onClose }) {
   return (
     <div style={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div style={styles.modal}>
-        {/* Panel izquierdo - branding */}
         <div style={styles.leftPanel}>
           <div style={styles.brandIcon}>LA</div>
           <h2 style={styles.brandTitle}>Los Andes</h2>
           <p style={styles.brandSub}>Banca por Internet</p>
           <div style={styles.features}>
-            {[
-              "🔒 Conexión cifrada SSL",
-              "🏦 Supervisado por la SBS",
-              "⚡ Acceso 24/7",
-              "🌄 Inclusión financiera",
-            ].map(f => (
+            {["Conexion cifrada SSL","Supervisado por la SBS","Acceso 24/7","Inclusion financiera"].map(f => (
               <div key={f} style={styles.feature}>{f}</div>
             ))}
           </div>
           <div style={styles.ruc}>
-            <p style={styles.rucText}>RUC N.° 20322445564</p>
-            <p style={styles.rucText}>Caja Rural de Ahorro y Crédito Los Andes S.A.</p>
+            <p style={styles.rucText}>RUC N. 20322445564</p>
+            <p style={styles.rucText}>Caja Rural de Ahorro y Credito Los Andes S.A.</p>
           </div>
         </div>
-
-        {/* Panel derecho - formulario */}
         <div style={styles.rightPanel}>
-          <button style={styles.closeBtn} onClick={onClose} title="Cerrar">✕</button>
-          <h3 style={styles.formTitle}>{tab === "login" ? "Iniciar sesión" : "Crear cuenta"}</h3>
-
-          {/* Tabs */}
+          <button style={styles.closeBtn} onClick={onClose} title="Cerrar">x</button>
+          <h3 style={styles.formTitle}>{tab === "login" ? "Iniciar sesion" : "Crear cuenta"}</h3>
           <div style={styles.tabs}>
-            <button
-              style={{ ...styles.tab, ...(tab === "login" ? styles.tabActive : {}) }}
-              onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>
-              Ingresar
-            </button>
-            <button
-              style={{ ...styles.tab, ...(tab === "register" ? styles.tabActive : {}) }}
-              onClick={() => { setTab("register"); setError(""); setSuccess(""); }}>
-              Registrarme
-            </button>
+            <button style={{ ...styles.tab, ...(tab === "login" ? styles.tabActive : {}) }} onClick={() => { setTab("login"); setError(""); setSuccess(""); }}>Ingresar</button>
+            <button style={{ ...styles.tab, ...(tab === "register" ? styles.tabActive : {}) }} onClick={() => { setTab("register"); setError(""); setSuccess(""); }}>Registrarme</button>
           </div>
-
-          {/* Mensajes */}
-          {error   && <div style={styles.error}>⚠️ {error}</div>}
-          {success && <div style={styles.successMsg}>✅ {success}</div>}
-
-          {/* Formulario Login */}
+          {error   && <div style={styles.error}>{error}</div>}
+          {success && <div style={styles.successMsg}>{success}</div>}
           {tab === "login" && (
             <form onSubmit={handleLogin} style={styles.form}>
               <div style={styles.field}>
-                <label style={styles.label}>Correo electrónico</label>
-                <input
-                  type="email" required style={styles.input}
-                  placeholder="tu@correo.com"
-                  value={loginData.email}
-                  onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                />
+                <label style={styles.label}>Correo electronico</label>
+                <input type="email" required style={styles.input} placeholder="tu@correo.com" value={loginData.email} onChange={(e) => setLoginData({ ...loginData, email: e.target.value })} />
               </div>
               <div style={styles.field}>
-                <label style={styles.label}>Contraseña</label>
-                <input
-                  type="password" required style={styles.input}
-                  placeholder="••••••••"
-                  value={loginData.password}
-                  onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                />
+                <label style={styles.label}>Contrasena</label>
+                <input type="password" required style={styles.input} placeholder="........" value={loginData.password} onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
               </div>
-              <a style={styles.forgot}>¿Olvidaste tu contraseña?</a>
-              <button type="submit" style={{ ...styles.btnSubmit, opacity: loading ? 0.7 : 1 }} disabled={loading}>
-                {loading ? "Verificando..." : "Ingresar a mi cuenta →"}
-              </button>
-              <p style={styles.hint}>
-                Usa el email y contraseña de tu cuenta Supabase
-              </p>
+              <a style={styles.forgot}>Olvidaste tu contrasena?</a>
+              <button type="submit" style={{ ...styles.btnSubmit, opacity: loading ? 0.7 : 1 }} disabled={loading}>{loading ? "Verificando..." : "Ingresar a mi cuenta"}</button>
+              <p style={styles.hint}>Usa el email y contrasena de tu cuenta Supabase</p>
             </form>
           )}
-
-          {/* Formulario Registro */}
           {tab === "register" && (
             <form onSubmit={handleRegister} style={styles.form}>
               <div style={styles.field}>
                 <label style={styles.label}>Nombre completo</label>
-                <input
-                  type="text" required style={styles.input}
-                  placeholder="Juan Pérez"
-                  value={registerData.nombre}
-                  onChange={(e) => setRegisterData({ ...registerData, nombre: e.target.value })}
-                />
+                <input type="text" required style={styles.input} placeholder="Juan Perez" value={registerData.nombre} onChange={(e) => setRegisterData({ ...registerData, nombre: e.target.value })} />
               </div>
               <div style={styles.field}>
-                <label style={styles.label}>Correo electrónico</label>
-                <input
-                  type="email" required style={styles.input}
-                  placeholder="tu@correo.com"
-                  value={registerData.email}
-                  onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                />
+                <label style={styles.label}>Correo electronico</label>
+                <input type="email" required style={styles.input} placeholder="tu@correo.com" value={registerData.email} onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })} />
               </div>
               <div style={styles.field}>
-                <label style={styles.label}>Contraseña (mínimo 6 caracteres)</label>
-                <input
-                  type="password" required minLength={6} style={styles.input}
-                  placeholder="••••••••"
-                  value={registerData.password}
-                  onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                />
+                <label style={styles.label}>Contrasena (minimo 6 caracteres)</label>
+                <input type="password" required minLength={6} style={styles.input} placeholder="........" value={registerData.password} onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })} />
               </div>
-              <button type="submit" style={{ ...styles.btnSubmit, opacity: loading ? 0.7 : 1 }} disabled={loading}>
-                {loading ? "Creando cuenta..." : "Crear cuenta →"}
-              </button>
+              <button type="submit" style={{ ...styles.btnSubmit, opacity: loading ? 0.7 : 1 }} disabled={loading}>{loading ? "Creando cuenta..." : "Crear cuenta"}</button>
             </form>
           )}
         </div>
@@ -224,4 +166,3 @@ const styles = {
   btnSubmit: { background: "linear-gradient(135deg, #b91c1c, #ef4444)", color: "#fff", border: "none", borderRadius: 10, padding: "13px 0", fontSize: 15, fontWeight: 600, cursor: "pointer", marginTop: 4, transition: "opacity 0.2s" },
   hint: { fontSize: 11, color: "#94a3b8", textAlign: "center", margin: "4px 0 0" },
 };
-
