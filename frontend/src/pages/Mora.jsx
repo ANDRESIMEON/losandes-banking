@@ -3,11 +3,11 @@ const API_URL = import.meta.env.VITE_API_URL || API_URL;
 import { useEffect, useState } from "react";
 
 const bandaConfig = {
-  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "ðŸŸ¢", label: "Preventiva", dias: "1-30 dÃ­as" },
-  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "ðŸŸ¡", label: "Temprana",   dias: "31-60 dÃ­as" },
-  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "ðŸ”´", label: "TardÃ­a",     dias: "61-120 dÃ­as" },
-  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "âš–ï¸", label: "Judicial",   dias: "121-180 dÃ­as" },
-  castigo:    { color: "#475569", bg: "#f8fafc", icon: "ðŸš«", label: "Castigo",    dias: ">180 dÃ­as" },
+  preventiva: { color: "#059669", bg: "#ecfdf5", icon: "Ã°Å¸Å¸Â¢", label: "Preventiva", dias: "1-30 dÃƒÂ­as" },
+  temprana:   { color: "#d97706", bg: "#fffbeb", icon: "Ã°Å¸Å¸Â¡", label: "Temprana",   dias: "31-60 dÃƒÂ­as" },
+  tardia:     { color: "#dc2626", bg: "#fef2f2", icon: "Ã°Å¸â€Â´", label: "TardÃƒÂ­a",     dias: "61-120 dÃƒÂ­as" },
+  judicial:   { color: "#7c3aed", bg: "#f5f3ff", icon: "Ã¢Å¡â€“Ã¯Â¸Â", label: "Judicial",   dias: "121-180 dÃƒÂ­as" },
+  castigo:    { color: "#475569", bg: "#f8fafc", icon: "Ã°Å¸Å¡Â«", label: "Castigo",    dias: ">180 dÃƒÂ­as" },
 };
 
 export default function Mora() {
@@ -18,7 +18,7 @@ export default function Mora() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) { window.location.href = "/"; return; }
-    fetch("http://localhost:3000/api/mora/", {
+    fetch(API_URL +/api/mora/", {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -27,10 +27,10 @@ export default function Mora() {
   }, []);
 
   const handleGestion = async (moraId) => {
-    const obs = prompt("Ingrese observaciÃ³n de gestiÃ³n:");
+    const obs = prompt("Ingrese observaciÃƒÂ³n de gestiÃƒÂ³n:");
     if (!obs) return;
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/api/mora/gestion", {
+    const res = await fetch(API_URL +/api/mora/gestion", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ moraId, observaciones: obs })
@@ -41,9 +41,9 @@ export default function Mora() {
   };
 
   const handleJudicial = async (moraId) => {
-    if (!confirm("Â¿Confirmas derivar este crÃ©dito a cobranza judicial? Esta acciÃ³n no se puede deshacer.")) return;
+    if (!confirm("Ã‚Â¿Confirmas derivar este crÃƒÂ©dito a cobranza judicial? Esta acciÃƒÂ³n no se puede deshacer.")) return;
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/api/mora/judicial", {
+    const res = await fetch(API_URL +/api/mora/judicial", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ moraId })
@@ -52,14 +52,14 @@ export default function Mora() {
     if (data.success) {
       setMora(prev => prev.map(m => m.id === moraId ? { ...m, banda: "judicial", estado_gestion: "derivado_judicial" } : m));
     } else {
-      alert(data.message); // ej: "Solo crÃ©ditos con mÃ¡s de 120 dÃ­as de mora pueden derivarse a judicial"
+      alert(data.message); // ej: "Solo crÃƒÂ©ditos con mÃƒÂ¡s de 120 dÃƒÂ­as de mora pueden derivarse a judicial"
     }
   };
 
   const handleCastigo = async (moraId) => {
-    if (!confirm("Â¿Confirmas castigar esta cuenta? Esta acciÃ³n es definitiva.")) return;
+    if (!confirm("Ã‚Â¿Confirmas castigar esta cuenta? Esta acciÃƒÂ³n es definitiva.")) return;
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/api/mora/castigo", {
+    const res = await fetch(API_URL +/api/mora/castigo", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ moraId })
@@ -68,7 +68,7 @@ export default function Mora() {
     if (data.success) {
       setMora(prev => prev.map(m => m.id === moraId ? { ...m, banda: "castigo", estado_gestion: "castigado" } : m));
     } else {
-      alert(data.message); // ej: "Solo crÃ©ditos con mÃ¡s de 180 dÃ­as pueden ser castigados"
+      alert(data.message); // ej: "Solo crÃƒÂ©ditos con mÃƒÂ¡s de 180 dÃƒÂ­as pueden ser castigados"
     }
   };
 
@@ -87,17 +87,17 @@ export default function Mora() {
           <div style={styles.logo}>LA</div>
           <div>
             <div style={styles.logoName}>Los Andes</div>
-            <div style={styles.logoSub}>MÃ³dulo de Recuperaciones</div>
+            <div style={styles.logoSub}>MÃƒÂ³dulo de Recuperaciones</div>
           </div>
         </div>
-        <button style={styles.btnVolver} onClick={() => window.location.href = "/dashboard"}>â† Volver al Dashboard</button>
+        <button style={styles.btnVolver} onClick={() => window.location.href = "/dashboard"}>Ã¢â€ Â Volver al Dashboard</button>
       </div>
 
       <div style={styles.hero}>
         <h1 style={styles.heroTitle}>Bandeja de Mora</h1>
-        <p style={styles.heroSub}>GestiÃ³n de cartera morosa â€” {mora.length} crÃ©ditos en seguimiento</p>
+        <p style={styles.heroSub}>GestiÃƒÂ³n de cartera morosa Ã¢â‚¬â€ {mora.length} crÃƒÂ©ditos en seguimiento</p>
         <p style={styles.heroRol}>
-          Tu rol: <strong>{usuario?.rol}</strong> {puedeEscalar ? "â€” puedes derivar a judicial y castigar" : "â€” solo gestiÃ³n y observaciones (escalamiento exclusivo de Riesgos/Admin)"}
+          Tu rol: <strong>{usuario?.rol}</strong> {puedeEscalar ? "Ã¢â‚¬â€ puedes derivar a judicial y castigar" : "Ã¢â‚¬â€ solo gestiÃƒÂ³n y observaciones (escalamiento exclusivo de Riesgos/Admin)"}
         </p>
       </div>
 
@@ -122,7 +122,7 @@ export default function Mora() {
           <div style={styles.tableHeader}>
             <div>
               <span style={styles.tableTitle}>
-                {filtro === "todos" ? "Todos los crÃ©ditos en mora" : `Banda: ${bandaConfig[filtro]?.label}`}
+                {filtro === "todos" ? "Todos los crÃƒÂ©ditos en mora" : `Banda: ${bandaConfig[filtro]?.label}`}
               </span>
               <span style={styles.countBadge}>{moraFiltrada.length} registros</span>
             </div>
@@ -131,7 +131,7 @@ export default function Mora() {
           <table style={styles.table}>
             <thead>
               <tr style={styles.thead}>
-                {["Banda", "DÃ­as Mora", "Monto Deuda", "Estado GestiÃ³n", "Observaciones", "AcciÃ³n"].map(h => (
+                {["Banda", "DÃƒÂ­as Mora", "Monto Deuda", "Estado GestiÃƒÂ³n", "Observaciones", "AcciÃƒÂ³n"].map(h => (
                   <th key={h} style={styles.th}>{h}</th>
                 ))}
               </tr>
@@ -155,15 +155,15 @@ export default function Mora() {
                         {m.estado_gestion}
                       </span>
                     </td>
-                    <td style={styles.td}>{m.observaciones || "â€”"}</td>
+                    <td style={styles.td}>{m.observaciones || "Ã¢â‚¬â€"}</td>
                     <td style={styles.td}>
                       <div style={styles.acciones}>
                         <button style={styles.btnGestion} onClick={() => handleGestion(m.id)}>Gestionar</button>
                         {puedeEscalar && m.dias_mora >= 121 && m.banda !== "judicial" && m.banda !== "castigo" && (
-                          <button style={styles.btnJudicial} onClick={() => handleJudicial(m.id)}>âš–ï¸ Judicial</button>
+                          <button style={styles.btnJudicial} onClick={() => handleJudicial(m.id)}>Ã¢Å¡â€“Ã¯Â¸Â Judicial</button>
                         )}
                         {puedeEscalar && m.dias_mora > 180 && m.banda !== "castigo" && (
-                          <button style={styles.btnCastigo} onClick={() => handleCastigo(m.id)}>ðŸš« Castigar</button>
+                          <button style={styles.btnCastigo} onClick={() => handleCastigo(m.id)}>Ã°Å¸Å¡Â« Castigar</button>
                         )}
                       </div>
                     </td>

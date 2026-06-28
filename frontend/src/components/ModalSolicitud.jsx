@@ -13,7 +13,7 @@ export default function ModalSolicitud({ onClose, userId, onExito }) {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:3000/api/credito/solicitar", {
+      const res = await fetch(API_URL +/api/credito/solicitar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
