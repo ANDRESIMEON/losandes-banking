@@ -129,7 +129,7 @@ export default function Core() {
                     </>
                   )}
                   {s.estado === "aprobado" && <button style={styles.btnDesembolsar} onClick={() => handleEstado(s.id, "desembolsado")}> Desembolsar</button>}
-                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>
+                  {["rechazado", "rechazado_automatico", "desembolsado"].includes(s.estado) && <span style={{ color: "#94a3b8", fontSize: 12 }}>Sin acciones</span>
                 </div>
               </td>
             </tr>
