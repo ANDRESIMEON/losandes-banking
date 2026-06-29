@@ -179,7 +179,7 @@ export default function Core() {
     );
     if (vista === "comite") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y Comit  pendientes de resoluci
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Propuesta y Comite - pendientes de resolucion</span>
         {renderTabla(enComite)}
       </div>
     );
@@ -217,7 +217,7 @@ export default function Core() {
     );
     if (vista === "ahorros") return (
       <div style={styles.tableCard}>
-        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones  Cuentas de Ahorro ({cuentas.length})</span></div>
+        <div style={styles.tableHeader}><span style={styles.tableTitle}>Captaciones - Cuentas de Ahorro ({cuentas.length})</span></div>
         <table style={styles.table}>
           <thead><tr style={styles.thead}>{["Cliente ID","Saldo","Meta Ahorro","Tasa Inter","Fecha Apertura"].map(h=><th key={h} style={styles.th}>{h}</th>)}</tr></thead>
           <tbody>
